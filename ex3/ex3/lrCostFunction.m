@@ -37,12 +37,22 @@ grad = zeros(size(theta));
 %
 
 
+cost = 0;
+hyp = sigmoid(X*theta);
+cost = ((-y')*(log(hyp))) - ((1 - y')*(log(1-hyp)));
+J = (sum(cost))/m;
+grad = (X'*(hyp - y))/m;
+
+reg_theta = theta;
+reg_theta(1) = 0;
+
+reg_cost = lambda/(2*m) * (sum(reg_theta .^ 2));
+
+J = J + reg_cost;
 
 
-
-
-
-
+reg_grad = (lambda * reg_theta)/m;
+grad = grad + reg_grad;
 
 
 % =============================================================
