@@ -62,24 +62,54 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% Part 1
+A1 = [ones(m, 1) X];
+A2 = sigmoid(Theta1*A1')';
+A2 = [ones(m, 1) A2];
+H_Theta = sigmoid(Theta2*A2')';
+Y_indexes = eye(num_labels)(y,:);
 
+cost = (Y_indexes .* (log(H_Theta))) + ((1 - Y_indexes) .* log(1 - H_Theta));
 
+J = -(sum(sum(cost)))/m;
 
+% Part 2
 
+Delta2 = 0;
+Delta1 = 0;
 
+for t = 1:m
+	a1 = X(t, :)';
+	a1 = [1; a1]; % bias
+	z2 = Theta1 * a1;
+	a2 = sigmoid(z2);
+	a2 = [1; a2]; % bias
+	z3 = Theta2 * a2;
+	a3 = sigmoid(z3);
 
+	d3 = a3 - (Y_indexes(t, :)');
+	Delta2 = Delta2 + (d3 * a2');
 
+	d2 = (Theta2(:, 2:end)' * d3) .* sigmoidGradient(z2);
+	Delta1 = Delta1 + (d2 * a1');
 
+endfor
 
+reg_Theta1 = Theta1(:, 2:end);
+reg_Theta2 = Theta2(:, 2:end);
 
+reg_cost = lambda/(2*m) * (sum(sum(reg_Theta1 .^ 2)) + sum(sum(reg_Theta2 .^ 2)));
 
+J = J + reg_cost;
 
+Theta1_grad = Delta1/m;
+Theta2_grad = Delta2/m;
 
+reg_term1 = (lambda/m) * Theta1(:, 2:end);
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + reg_term1;
 
-
-
-
-
+reg_term2 = (lambda/m) * Theta2(:, 2:end);
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + reg_term2;
 % -------------------------------------------------------------
 
 % =========================================================================
