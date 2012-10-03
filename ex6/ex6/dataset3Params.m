@@ -37,7 +37,7 @@ sigma = 0.3;
 %		err = mean(double(predictions ~= yval));
 %		fprintf(['Attempt %f: Trained an SVM with parameter this_C = %f, this_sigma = %f, err = %f\n'], 
 %			attempt, this_C, this_sigma, err);
-%			attempt = attempt + 1;
+%		attempt = attempt + 1;
 %		if (err < best_err)
 %			fprintf(['New Best!\n']);
 %			best_err = err;
