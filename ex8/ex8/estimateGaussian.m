@@ -21,16 +21,13 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 
+mu = 1/m * sum(X);
 
+diffs = mu' * ones(1,m);
+diffs = diffs';
 
-
-
-
-
-
-
+sigma2 = 1/m * sum((X - diffs) .^2);
 
 % =============================================================
-
 
 end
